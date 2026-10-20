@@ -1,0 +1,17 @@
+[Unit]
+Description=OpenAlgo Zerodha Live Data Collector
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/workspaces/openalgo
+EnvironmentFile=/workspaces/openalgo/.env
+ExecStart=/workspaces/openalgo/.venv-collector/bin/python /workspaces/openalgo/openalgo_zerodha_live_collector.py
+Restart=always
+RestartSec=5
+KillSignal=SIGTERM
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target
