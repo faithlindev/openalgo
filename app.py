@@ -1,6 +1,6 @@
 # Load and check environment variables before anything else
 from utils.env_check import load_and_check_env_variables  # Import the environment check function
-
+from werkzeug.middleware.proxy_fix import ProxyFix
 load_and_check_env_variables()
 
 import os
@@ -171,6 +171,12 @@ def create_app():
     # Initialize Flask application
     app = Flask(__name__)
 
+    app.wsgi_app = ProxyFix(
+        app.wsgi_app,
+        x_for=1,
+        x_proto=1,
+        x_host=1,
+    )
     # Initialize SocketIO
     socketio.init_app(app)  # Link SocketIO to the Flask app
 
